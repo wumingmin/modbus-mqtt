@@ -28,7 +28,6 @@ import me.legrange.bridge.config.Slave;
 import me.legrange.bridge.modbus.ModbusListener;
 import me.legrange.bridge.modbus.ModbusReaderException;
 import me.legrange.bridge.modbus.ModbusRegister;
-import me.legrange.bridge.mqtt.MqttListener;
 import me.legrange.modbus.SerialException;
 import me.legrange.modbus.SerialModbusPort;
 import net.objecthunter.exp4j.Expression;
@@ -127,7 +126,11 @@ public class ModbusMqttService {
      * Connect to the MQTT broker
      */
     private void startMqtt() {
-        mqtt = new MqttConnector(String.format("tcp://%s:%d", config.getMqtt().getBroker().getHost(), config.getMqtt().getBroker().getPort()), this);
+        mqtt = new MqttConnector(
+                String.format("tcp://%s:%d", config.getMqtt().getBroker().getHost(), config.getMqtt().getBroker().getPort()), 
+                config.getMqtt().getBroker().getUsername(),
+                config.getMqtt().getBroker().getPassword(),
+                this);
 /*        mqtt.addListener(config.getMqtt().getCommandTopic(), new MqttListener() {
             @Override
             public void received(String topic, String msg) {

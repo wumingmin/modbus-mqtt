@@ -37,8 +37,14 @@ import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
 public class MqttConnector implements Runnable, MqttCallback {
 
     public MqttConnector(String broker, ModbusMqttService service) {
+        this(broker, null, null, service);
+    }
+
+    public MqttConnector(String broker, String username, String password, ModbusMqttService service) {
         this.broker = broker;
         this.service = service;
+        this.username = username;
+        this.password = password;
     }
 
     public void addListener(String topic, MqttListener listener) {
@@ -55,6 +61,12 @@ public class MqttConnector implements Runnable, MqttCallback {
         try {
             mqtt = new MqttClient(broker, service.getName(), new MemoryPersistence());
             MqttConnectOptions opts = new MqttConnectOptions();
+            if (username != null) {
+                opts.setUserName(username);
+            }
+            if (password != null) {
+                opts.setPassword(password.toCharArray());
+            }
             opts.setCleanSession(true);
             mqtt.connect(opts);
             mqtt.setCallback(this);
@@ -126,6 +138,8 @@ public class MqttConnector implements Runnable, MqttCallback {
 
     private MqttClient mqtt;
     private final String broker;
+    private final String username;
+    private final String password;  
     private final ModbusMqttService service;
     private final Map<String, List<MqttListener>> listeners = new HashMap<>();
 

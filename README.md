@@ -49,6 +49,20 @@ mqtt: {
 }   
 ```
 
+An optional username and password for connecting to MQTT can be supplied: 
+
+```yaml
+mqtt: {
+    broker: {  
+        host: 192.168.1.5,
+        port: 1883,
+        userame: wattnode,
+        password: notmypasswordlol
+    }, 
+}   
+```
+
+
 ### Define the modbus slaves and registers to read and publish
 
 A list of modbus slaves from which data will be read is defined. Each slave must contain the following:

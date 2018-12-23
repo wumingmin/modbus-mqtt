@@ -59,6 +59,22 @@ public class Broker {
         this.host = host;
     }
 
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     void validate() throws ConfigurationException {
         if ((host == null) || host.equals("")) {
             throw new ConfigurationException("Mqtt broker host not defined");
@@ -70,5 +86,7 @@ public class Broker {
 
     private int port;
     private String host;
+    private String username;
+    private String password;
 
 }
